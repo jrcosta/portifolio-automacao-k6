@@ -1,0 +1,19 @@
+{
+  "name": "portifolio-automacao-k6",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Simple API for load testing with k6",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "test:smoke": "node scripts/smoke-test.js",
+    "test:load": "k6 run k6/load-test.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "express": "^4.21.2"
+  }
+}
