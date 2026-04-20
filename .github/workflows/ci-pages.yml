@@ -1,0 +1,36 @@
+name: CI / Testes de Carga e Relatório (GitHub Pages)
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+
+jobs:
+  test-and-report:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write # Permissão necessária para publicar na branch gh-pages
+      pages: write    # Permissões do Github Pages
+      id-token: write
+
+    steps:
+      - name: Checkout do Repositório
+        uses: actions/checkout@v4
+
+      - name: Instalar K6
+        uses: grafana/setup-k6-action@v1
+
+      - name: Executar k6 Load Test
+        run: k6 run k6/load-test.js
+        continue-on-error: true # Continua mesmo se os testes falharem (fail threshold) para gerar o relatório
+
+      - name: Deploy do Resumo para GitHub Pages
+        if: always()
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: ./ # Envia o diretório atual contendo index.html gerado
