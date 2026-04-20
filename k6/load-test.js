@@ -1,5 +1,12 @@
 import http from 'k6/http';
 import { check, sleep } from 'k6';
+import { htmlReport } from "https://raw.githubusercontent.com/benc-uk/k6-reporter/main/dist/bundle.js";
+
+export function handleSummary(data) {
+  return {
+    "index.html": htmlReport(data),
+  };
+}
 
 export const options = {
   stages: [
@@ -13,35 +20,35 @@ export const options = {
   },
 };
 
-const baseUrl = __ENV.BASE_URL || 'http://localhost:3000';
+const baseUrl = __ENV.BASE_URL || 'https://dummyjson.com';
 
 export default function () {
-  const health = http.get(`${baseUrl}/health`);
+  const health = http.get(`${baseUrl}/test`);
   check(health, {
-    'health status is 200': (r) => r.status === 200,
+    'health/test status is 200': (r) => r.status === 200,
   });
 
-  const users = http.get(`${baseUrl}/users?limit=10`);
-  check(users, {
-    'users status is 200': (r) => r.status === 200,
+  const products = http.get(`${baseUrl}/products?limit=10`);
+  check(products, {
+    'products status is 200': (r) => r.status === 200,
   });
 
-  const user = http.get(`${baseUrl}/users/1`);
-  check(user, {
-    'user status is 200': (r) => r.status === 200,
+  const product = http.get(`${baseUrl}/products/1`);
+  check(product, {
+    'product status is 200': (r) => r.status === 200,
   });
 
   const payload = JSON.stringify({
-    customerId: 1,
-    items: [{ sku: 'BOOK-1', qty: 2 }],
+    title: 'BMW Pencil',
+    price: 10
   });
 
-  const order = http.post(`${baseUrl}/orders`, payload, {
+  const productAdd = http.post(`${baseUrl}/products/add`, payload, {
     headers: { 'Content-Type': 'application/json' },
   });
 
-  check(order, {
-    'order status is 201': (r) => r.status === 201,
+  check(productAdd, {
+    'product add status is 200/201': (r) => r.status === 200 || r.status === 201,
   });
 
   sleep(1);
