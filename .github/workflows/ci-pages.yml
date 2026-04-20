@@ -24,7 +24,7 @@ jobs:
         uses: grafana/setup-k6-action@v1
 
       - name: Executar k6 Load Test
-        run: k6 run k6/load-test.js
+        run: k6 run src/main.js
         continue-on-error: true # Continua mesmo se os testes falharem (fail threshold) para gerar o relatório
 
       - name: Deploy do Resumo para GitHub Pages
