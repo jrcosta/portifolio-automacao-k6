@@ -1,6 +1,6 @@
 ﻿export function buildProductPayload() {
-  return JSON.stringify({
+  return {
     title: 'BMW Pencil',
     price: 10,
-  });
+  };
 }

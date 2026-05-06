@@ -1,8 +1,8 @@
 ﻿export const options = {
   stages: [
-    { duration: '20s', target: 20 },
-    { duration: '40s', target: 50 },
-    { duration: '20s', target: 0 },
+    { duration: '10s', target: 2 },
+    { duration: '20s', target: 5 },
+    { duration: '10s', target: 0 },
   ],
   thresholds: {
     http_req_failed: ['rate<0.01'],

@@ -4,7 +4,7 @@
   "private": true,
   "description": "Simple API load testing with k6 consuming DummyJSON",
   "scripts": {
-    "test:load": "k6 run k6/load-test.js"
+    "test:load": "k6 run src/main.js"
   },
   "engines": {
     "node": ">=20"
